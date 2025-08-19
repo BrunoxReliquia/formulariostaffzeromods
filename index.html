@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Mods - Formulário Staff</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.2rem;
+        }
+
+        .main-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-discord {
+            background: linear-gradient(45deg, #5865f2, #404eed);
+            color: white;
+        }
+
+        .btn-admin {
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(26, 35, 50, 0.8);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+        }
+
+        .feature-title {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a2332, #0f1419);
+            margin: 2% auto;
+            padding: 30px;
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #ff4757;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ff3742;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: #00d4ff;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 20, 25, 0.8);
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+        }
+
+        .btn-approve {
+            background: linear-gradient(45deg, #2ed573, #1dd65a);
+            color: white;
+        }
+
+        .btn-reject {
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+        }
+
+        .btn-logout {
+            background: linear-gradient(45deg, #57606f, #495057);
+            color: white;
+        }
+
+        .forms-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-item {
+            background: rgba(26, 35, 50, 0.8);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .form-item:hover {
+            border-color: #00d4ff;
+        }
+
+        .form-item.selected {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .form-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #ffa726;
+            color: white;
+        }
+
+        .status-approved {
+            background: #2ed573;
+            color: white;
+        }
+
+        .status-rejected {
+            background: #ff4757;
+            color: white;
+        }
+
+        .form-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            background: rgba(15, 20, 25, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .detail-label {
+            color: #00d4ff;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #ffffff;
+            word-break: break-word;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .main-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <!-- Main Page -->
+        <div id="mainPage">
+            <div class="header">
+                <h1 class="logo">Zero Mods</h1>
+                <p class="subtitle">Servidor de SA-MP com os melhores mods</p>
+            </div>
+
+            <div class="main-buttons">
+                <button class="btn btn-discord" onclick="openStaffForm()">
+                    🎮 Entrar no Discord
+                </button>
+                <button class="btn btn-admin" onclick="openAdminLogin()">
+                    🔒 Painel Admin
+                </button>
+            </div>
+
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Comunidade Ativa</h3>
+                    <p>Junte-se a uma comunidade apaixonada por roleplay e faça parte desta história.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Mods Exclusivos</h3>
+                    <p>Os melhores mods estão aqui, o que torna sua experiência de jogo única e divertida.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title" style="margin-bottom: 20px;">Formulário para Staff</h2>
+                <p style="margin-bottom: 20px;">Candidate-se para fazer parte da nossa equipe!</p>
+                <button class="btn submit-btn" onclick="openStaffForm()">Abrir Formulário</button>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <h2 style="color: #00d4ff;">📋 Painel Administrativo</h2>
+                <div class="admin-actions">
+                    <button class="btn btn-small btn-approve" onclick="approveSelected()">✅ Aprovar</button>
+                    <button class="btn btn-small btn-reject" onclick="rejectSelected()">❌ Rejeitar</button>
+                    <button class="btn btn-small btn-delete" onclick="deleteSelected()">🗑️ Excluir</button>
+                    <button class="btn btn-small btn-logout" onclick="logout()">🚪 Sair</button>
+                </div>
+            </div>
+            <div id="formsContainer" class="forms-grid"></div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #00d4ff; margin-bottom: 20px;">🔒 Login Admin</h2>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="adminEmail" class="form-input" placeholder="Digite seu email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Senha</label>
+                <input type="password" id="adminPassword" class="form-input" placeholder="Digite sua senha">
+            </div>
+            <button class="submit-btn" onclick="adminLogin()">ENTRAR</button>
+        </div>
+    </div>
+
+    <!-- Staff Form Modal -->
+    <div id="staffModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #00d4ff; margin-bottom: 20px;">📝 Formulário para Staff</h2>
+            <p style="margin-bottom: 20px; color: #a0a0a0;">Candidate-se para fazer parte da nossa equipe!</p>
+            
+            <form id="staffForm">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label">Nome Completo</label>
+                        <input type="text" id="nomeCompleto" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Idade</label>
+                        <input type="number" id="idade" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Discord (usuário#0000)</label>
+                    <input type="text" id="discord" class="form-input" placeholder="usuario#0000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Experiência Anterior como Staff</label>
+                    <textarea id="experienciaAnterior" class="form-textarea" placeholder="Descreva sua experiência anterior em servidores ou comunidades..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Por que quer ser Staff?</label>
+                    <textarea id="motivacao" class="form-textarea" placeholder="Explique suas motivações para fazer parte da equipe..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Disponibilidade de Horários</label>
+                    <textarea id="disponibilidade" class="form-textarea" placeholder="Informe seus horários disponíveis (dias da semana e horários)..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Como você lidaria com um membro infringindo as regras?</label>
+                    <textarea id="situacaoConflito" class="form-textarea" placeholder="Descreva como você reagiria a uma situação de conflito..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">O que você faria se algum membro estivesse desrespeitando um superior?</label>
+                    <textarea id="desrespeitoSuperior" class="form-textarea" placeholder="Como você lidaria com essa situação de desrespeito..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Como você reagiria se encontrasse alguém fazendo spam no servidor?</label>
+                    <textarea id="situacaoSpam" class="form-textarea" placeholder="Descreva suas ações para lidar com spam..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Você presencia uma discussão acalorada entre dois membros. Qual sua atitude?</label>
+                    <textarea id="mediacaoConflito" class="form-textarea" placeholder="Como você mediaria essa situação..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Qual sua experiência com SA-MP? Há quanto tempo joga?</label>
+                    <textarea id="experienciaSAMP" class="form-textarea" placeholder="Conte sobre sua experiência com SA-MP, servidores que já jogou..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Quais suas principais qualidades para ser um bom staff?</label>
+                    <textarea id="qualidades" class="form-textarea" placeholder="Liste suas qualidades e habilidades..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">ENVIAR FORMULÁRIO</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Application state
+        let selectedForm = null;
+        let forms = JSON.parse(localStorage.getItem('staffForms') || '[]');
+        let isAdmin = false;
+
+        // Modal functions
+        function openAdminLogin() {
+            document.getElementById('adminModal').style.display = 'block';
+        }
+
+        function openStaffForm() {
+            document.getElementById('staffModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('adminModal').style.display = 'none';
+            document.getElementById('staffModal').style.display = 'none';
+        }
+
+        // Admin functions
+        function adminLogin() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (email === 'stx777.amx@gmail.com' && password === 'escola2025') {
+                isAdmin = true;
+                closeModal();
+                showAdminPanel();
+            } else {
+                alert('Email ou senha incorretos!');
+            }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadForms();
+        }
+
+        function logout() {
+            isAdmin = false;
+            selectedForm = null;
+            document.getElementById('mainPage').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        // Form management
+        function loadForms() {
+            const container = document.getElementById('formsContainer');
+            container.innerHTML = '';
+
+            if (forms.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #a0a0a0; font-size: 1.2rem;">Nenhum formulário encontrado.</p>';
+                return;
+            }
+
+            forms.forEach((form, index) => {
+                const formElement = createFormElement(form, index);
+                container.appendChild(formElement);
+            });
+        }
+
+        function createFormElement(form, index) {
+            const div = document.createElement('div');
+            div.className = 'form-item';
+            div.onclick = () => selectForm(index);
+
+            const statusClass = `status-${form.status || 'pending'}`;
+            const statusText = {
+                'pending': 'PENDENTE',
+                'approved': 'APROVADO',
+                'rejected': 'REJEITADO'
+            }[form.status || 'pending'];
+
+            div.innerHTML = `
+                <div class="form-status ${statusClass}">${statusText}</div>
+                <h3 style="color: #00d4ff; margin-bottom: 15px;">${form.nomeCompleto}</h3>
+                <p style="color: #a0a0a0; margin-bottom: 15px;">Enviado em: ${form.timestamp}</p>
+                
+                <div class="form-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Idade</div>
+                        <div class="detail-value">${form.idade} anos</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Discord</div>
+                        <div class="detail-value">${form.discord}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Experiência</div>
+                        <div class="detail-value">${form.experienciaAnterior.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Motivação</div>
+                        <div class="detail-value">${form.motivacao.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Disponibilidade</div>
+                        <div class="detail-value">${form.disponibilidade.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Situação Conflito</div>
+                        <div class="detail-value">${form.situacaoConflito.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Desrespeito Superior</div>
+                        <div class="detail-value">${form.desrespeitoSuperior.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Situação Spam</div>
+                        <div class="detail-value">${form.situacaoSpam.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Mediação Conflito</div>
+                        <div class="detail-value">${form.mediacaoConflito.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Experiência SA-MP</div>
+                        <div class="detail-value">${form.experienciaSAMP.substring(0, 50)}...</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Qualidades</div>
+                        <div class="detail-value">${form.qualidades.substring(0, 50)}...</div>
+                    </div>
+                </div>
+            `;
+
+            return div;
+        }
+
+        function selectForm(index) {
+            // Remove previous selection
+            document.querySelectorAll('.form-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Add selection to clicked item
+            document.querySelectorAll('.form-item')[index].classList.add('selected');
+            selectedForm = index;
+        }
+
+        function approveSelected() {
+            if (selectedForm === null) {
+                alert('Selecione um formulário primeiro!');
+                return;
+            }
+
+            forms[selectedForm].status = 'approved';
+            saveForms();
+            loadForms();
+            selectedForm = null;
+        }
+
+        function rejectSelected() {
+            if (selectedForm === null) {
+                alert('Selecione um formulário primeiro!');
+                return;
+            }
+
+            forms[selectedForm].status = 'rejected';
+            saveForms();
+            loadForms();
+            selectedForm = null;
+        }
+
+        function deleteSelected() {
+            if (selectedForm === null) {
+                alert('Selecione um formulário primeiro!');
+                return;
+            }
+
+            if (confirm('Tem certeza que deseja excluir este formulário?')) {
+                forms.splice(selectedForm, 1);
+                saveForms();
+                loadForms();
+                selectedForm = null;
+            }
+        }
+
+        // Form submission
+        document.getElementById('staffForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                nomeCompleto: document.getElementById('nomeCompleto').value,
+                idade: document.getElementById('idade').value,
+                discord: document.getElementById('discord').value,
+                experienciaAnterior: document.getElementById('experienciaAnterior').value,
+                motivacao: document.getElementById('motivacao').value,
+                disponibilidade: document.getElementById('disponibilidade').value,
+                situacaoConflito: document.getElementById('situacaoConflito').value,
+                desrespeitoSuperior: document.getElementById('desrespeitoSuperior').value,
+                situacaoSpam: document.getElementById('situacaoSpam').value,
+                mediacaoConflito: document.getElementById('mediacaoConflito').value,
+                experienciaSAMP: document.getElementById('experienciaSAMP').value,
+                qualidades: document.getElementById('qualidades').value,
+                status: 'pending',
+                timestamp: new Date().toLocaleString('pt-BR')
+            };
+
+            forms.push(formData);
+            saveForms();
+
+            alert('Formulário enviado com sucesso! Aguarde a análise da equipe.');
+            closeModal();
+            document.getElementById('staffForm').reset();
+        });
+
+        // Storage functions
+        function saveForms() {
+            localStorage.setItem('staffForms', JSON.stringify(forms));
+        }
+
+        // Auto-update every second
+        setInterval(() => {
+            if (isAdmin) {
+                const currentSelected = selectedForm;
+                loadForms();
+                if (currentSelected !== null && currentSelected < forms.length) {
+                    selectForm(currentSelected);
+                }
+            }
+        }, 1000);
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const adminModal = document.getElementById('adminModal');
+            const staffModal = document.getElementById('staffModal');
+            
+            if (event.target === adminModal || event.target === staffModal) {
+                closeModal();
+            }
+        }
+
+        // Initialize
+        createStars();
+    </script>
+</body>
+</html>
