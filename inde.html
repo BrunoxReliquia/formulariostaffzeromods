@@ -164,12 +164,14 @@
 
         .modal-content {
             background: linear-gradient(135deg, #1a2332, #0f1419);
-            margin: 5% auto;
+            margin: 2% auto;
             padding: 30px;
             border: 2px solid #00d4ff;
             border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
             animation: modalSlide 0.3s ease-out;
         }
@@ -476,21 +478,9 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <div class="form-group">
-                        <label class="form-label">Discord (usuário#0000)</label>
-                        <input type="text" id="discord" class="form-input" placeholder="usuario#0000" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Cargo Desejado</label>
-                        <select id="cargoDesejado" class="form-select" required>
-                            <option value="">Selecione um cargo...</option>
-                            <option value="moderador">Moderador</option>
-                            <option value="admin">Administrador</option>
-                            <option value="helper">Helper</option>
-                            <option value="suporte">Suporte</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Discord (usuário#0000)</label>
+                    <input type="text" id="discord" class="form-input" placeholder="usuario#0000" required>
                 </div>
 
                 <div class="form-group">
@@ -650,10 +640,6 @@
                         <div class="detail-value">${form.discord}</div>
                     </div>
                     <div class="detail-item">
-                        <div class="detail-label">Cargo Desejado</div>
-                        <div class="detail-value">${form.cargoDesejado}</div>
-                    </div>
-                    <div class="detail-item">
                         <div class="detail-label">Experiência</div>
                         <div class="detail-value">${form.experienciaAnterior.substring(0, 50)}...</div>
                     </div>
@@ -752,7 +738,6 @@
                 nomeCompleto: document.getElementById('nomeCompleto').value,
                 idade: document.getElementById('idade').value,
                 discord: document.getElementById('discord').value,
-                cargoDesejado: document.getElementById('cargoDesejado').value,
                 experienciaAnterior: document.getElementById('experienciaAnterior').value,
                 motivacao: document.getElementById('motivacao').value,
                 disponibilidade: document.getElementById('disponibilidade').value,
